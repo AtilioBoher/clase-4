@@ -14,20 +14,30 @@ func show(x chacra) {
 	fmt.Println("humedad:", x.humedad)
 }
 
-func agregar(x chacra) {
+func readFloat() (f float64) {
+	text := readString()
+	f, _ = strconv.ParseFloat(text, 64)
+	return f
+}
+
+func readString() (text string) {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter text: ")
-	text, _ := reader.ReadString('\n')
-	text = text[:len(text)-2]
-	if s, err := strconv.ParseFloat(text, 32); err == nil {
-		fmt.Printf("%T, %v\n", s, s)
-	}
-	// x.temp = append(x.temp, y)
+	text, _ = reader.ReadString('\n')
+	return text[:len(text)-2]
+}
+
+func agregar(x *chacra) {
+	fmt.Println("Ingrese valor de temperatura: ")
+	aux := readFloat()
+	x.temp = append(x.temp, aux)
+	fmt.Println("Ingrese valor de humedad: ")
+	aux = readFloat()
+	x.humedad = append(x.humedad, aux)
 }
 
 type chacra struct { //perfil bancario
-	temp    []float32
-	humedad []float32
+	temp    []float64
+	humedad []float64
 	fruta   map[string]int
 	nombre  string
 }
@@ -49,9 +59,13 @@ func main() {
 	chacra2.fruta["naranjas"] = 13
 	chacra2.nombre = "mengano"
 
+	fmt.Println("chacra1")
 	show(chacra1)
-	fmt.Println("")
+	fmt.Println("chacra2")
 	show(chacra2)
 
-	agregar(chacra1)
+	agregar(&chacra1)
+	fmt.Println("chacra1 con valores agregados")
+	show(chacra1)
+
 }
