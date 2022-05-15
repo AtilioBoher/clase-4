@@ -35,6 +35,31 @@ func agregar(x *chacra) {
 	x.humedad = append(x.humedad, aux)
 }
 
+func promedioTemp(x chacra) (f float64) {
+	var sum float64
+	for _, v := range x.temp {
+		sum += v
+	}
+	return sum / float64(len(x.temp))
+}
+
+func promedioHum(x chacra) (f float64) {
+	var sum float64
+	for _, v := range x.humedad {
+		sum += v
+	}
+	return sum / float64(len(x.humedad))
+}
+
+func datosFruta(x chacra, nombre string) {
+	fruta, existe := x.fruta[nombre]
+	if existe == true {
+		fmt.Printf("para la futa \"%s\" existen %d unidades", nombre, fruta)
+	} else {
+		fmt.Printf("la fruta \"%s\" no está en el registro", nombre)
+	}
+}
+
 type chacra struct { //perfil bancario
 	temp    []float64
 	humedad []float64
@@ -67,5 +92,9 @@ func main() {
 	agregar(&chacra1)
 	fmt.Println("chacra1 con valores agregados")
 	show(chacra1)
+
+	fmt.Println("el promedio de temperatura es %2.f", promedioTemp(chacra1))
+	fmt.Println("el promedio de humedad es %2.f", promedioHum(chacra1))
+	datosFruta(chacra2, "limón")
 
 }
